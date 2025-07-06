@@ -1,27 +1,96 @@
-document.addEventListener('DOMContentLoaded', function() {  // Wait for HTML to fully load before running code
-    console.log('JavaScript is now running!');              // Print message to browser console for debugging
+// Simple JavaScript to make cells editable when clicked
+document.addEventListener('DOMContentLoaded', function() {
+    const inputCells = document.querySelectorAll('.input-cell');
     
-    // Find HTML elements by their IDs
-    const button = document.getElementById('demoButton');      // Get the button element by its ID
-    const messageArea = document.getElementById('messageDisplay');  // Get the message area element by its ID
-    
-    // Add click event listener to the button
-    button.addEventListener('click', function() {              // Listen for clicks on the button
-        console.log('Button was clicked!');                    // Print message to console when button is clicked
-        
-        // Create a message with current time
-        const currentTime = new Date().toLocaleTimeString();   // Get current time as a readable string
-        const message = 'Hello! You clicked the button at ' + currentTime;  // Create message combining text and time
-        
-        // Display the message in our HTML
-        messageArea.textContent = message;                     // Put the message text into the HTML element
-        
-        // Change button text temporarily
-        button.textContent = 'Thanks for clicking!';           // Change what the button displays
-        
-        // Reset button text after 2 seconds
-        setTimeout(function() {                                // Run a function after a delay
-            button.textContent = 'Click Me!';                  // Change button text back to original
-        }, 2000);                                              // Wait 2000 milliseconds (2 seconds)
+    inputCells.forEach(cell => {
+        cell.addEventListener('click', function() {
+            if (this.textContent === 'Input text here') {
+                this.textContent = '';
+                this.style.color = '#000000';
+                this.style.fontStyle = 'normal';
+                this.style.backgroundColor = '#ffffff';
+            }
+            this.contentEditable = true;
+            this.focus();
+        });
+
+        cell.addEventListener('blur', function() {
+            this.contentEditable = false;
+            if (this.textContent.trim() === '') {
+                this.textContent = 'Input text here';
+                this.style.color = '#666666';
+                this.style.fontStyle = 'italic';
+                this.style.backgroundColor = '#f9f9f9';
+            }
+        });
+
+        cell.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                this.blur();
+            }
+        });
     });
+});
+
+// Function to add a new row
+function addRow() {
+    const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+    
+    for (let i = 0; i < 7; i++) {
+        const cell = newRow.insertCell(i);
+        cell.className = 'input-cell';
+        cell.textContent = 'Input text here';
+        
+        // Add event listeners to new cells
+        cell.addEventListener('click', function() {
+            if (this.textContent === 'Input text here') {
+                this.textContent = '';
+                this.style.color = '#000000';
+                this.style.fontStyle = 'normal';
+                this.style.backgroundColor = '#ffffff';
+            }
+            this.contentEditable = true;
+            this.focus();
+        });
+
+        cell.addEventListener('blur', function() {
+            this.contentEditable = false;
+            if (this.textContent.trim() === '') {
+                this.textContent = 'Input text here';
+                this.style.color = '#666666';
+                this.style.fontStyle = 'italic';
+                this.style.backgroundColor = '#f9f9f9';
+            }
+        });
+
+        cell.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                this.blur();
+            }
+        });
+    }
+}
+
+// Add button functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Add New Row';
+    addButton.style.marginTop = '20px';
+    addButton.style.padding = '10px 20px';
+    addButton.style.backgroundColor = '#000000';
+    addButton.style.color = '#ffffff';
+    addButton.style.border = 'none';
+    addButton.style.cursor = 'pointer';
+    addButton.style.fontSize = '16px';
+    
+    addButton.addEventListener('click', addRow);
+    addButton.addEventListener('mouseenter', function() {
+        this.style.backgroundColor = '#333333';
+    });
+    addButton.addEventListener('mouseleave', function() {
+        this.style.backgroundColor = '#000000';
+    });
+    
+    document.body.appendChild(addButton);
 });
