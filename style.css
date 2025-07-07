@@ -1,60 +1,9 @@
 body {
-    font-family: Arial, Arial;
+    font-family: typewriter, typewriter;
     margin: 20px;
     background-color: #ffffff;
     color: #000000;
-}
-
-.table-container {
-    overflow-x: auto;
-    margin: 20px 0;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border: 2px solid #000000;
-}
-
-th, td {
-    border: 1px solid #000000;
-    padding: 12px;
-    text-align: left;
-    vertical-align: top;
-}
-
-th {
-    background-color: #000000;
-    color: #ffffff;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-td {
-    background-color: #ffffff;
-    color: #000000;
-    min-height: 40px;
-}
-
-.input-cell {
-    font-style: italic;
-    color: #666666;
-    background-color: #f9f9f9;
-}
-
-/* Hover effect for data rows */
-tr:not(:first-child):hover {
-    background-color: #f5f5f5;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    th, td {
-        padding: 8px;
-        font-size: 14px;
-    }
+    line-height: 1.6;
 }
 
 h1 {
@@ -63,4 +12,129 @@ h1 {
     border-bottom: 2px solid #000000;
     padding-bottom: 10px;
     margin-bottom: 30px;
+}
+
+.form-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 2px solid #000000;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.form-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 15px;
+}
+
+.form-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.label-column {
+    width: 33.33%;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.input-column {
+    width: 66.67%;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: bold;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-field {
+    min-height: 40px;
+    padding: 12px;
+    border: 1px solid #000000;
+    background-color: #f9f9f9;
+    color: #666666;
+    font-style: italic;
+    cursor: text;
+    word-wrap: break-word;
+    outline: none;
+}
+
+.input-field:empty::before {
+    content: attr(data-placeholder);
+    color: #666666;
+    font-style: italic;
+}
+
+.input-field:focus {
+    background-color: #ffffff;
+    color: #000000;
+    font-style: normal;
+    border-color: #333333;
+}
+
+.input-field.has-content {
+    background-color: #ffffff;
+    color: #000000;
+    font-style: normal;
+}
+
+#addEntryBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#addEntryBtn:hover {
+    background-color: #333333;
+}
+
+/* Entry separator */
+.entry-separator {
+    margin: 40px 0;
+    border-top: 3px solid #000000;
+    padding-top: 20px;
+}
+
+.entry-separator h2 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: #000000;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .label-column,
+    .input-column {
+        width: 100%;
+        padding: 0;
+    }
+    
+    .input-column {
+        margin-top: 10px;
+    }
+    
+    body {
+        margin: 10px;
+    }
 }

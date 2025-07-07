@@ -1,96 +1,103 @@
-// Simple JavaScript to make cells editable when clicked
 document.addEventListener('DOMContentLoaded', function() {
-    const inputCells = document.querySelectorAll('.input-cell');
+    // Initialize existing input fields
+    initializeInputFields();
     
-    inputCells.forEach(cell => {
-        cell.addEventListener('click', function() {
-            if (this.textContent === 'Input text here') {
-                this.textContent = '';
-                this.style.color = '#000000';
-                this.style.fontStyle = 'normal';
-                this.style.backgroundColor = '#ffffff';
-            }
-            this.contentEditable = true;
-            this.focus();
-        });
-
-        cell.addEventListener('blur', function() {
-            this.contentEditable = false;
-            if (this.textContent.trim() === '') {
-                this.textContent = 'Input text here';
-                this.style.color = '#666666';
-                this.style.fontStyle = 'italic';
-                this.style.backgroundColor = '#f9f9f9';
-            }
-        });
-
-        cell.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                this.blur();
-            }
-        });
-    });
 });
 
-// Function to add a new row
-function addRow() {
-    const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
-    const newRow = table.insertRow();
+function initializeInputFields() {
+    const inputFields = document.querySelectorAll('.input-field');
     
-    for (let i = 0; i < 7; i++) {
-        const cell = newRow.insertCell(i);
-        cell.className = 'input-cell';
-        cell.textContent = 'Input text here';
-        
-        // Add event listeners to new cells
-        cell.addEventListener('click', function() {
-            if (this.textContent === 'Input text here') {
-                this.textContent = '';
-                this.style.color = '#000000';
-                this.style.fontStyle = 'normal';
-                this.style.backgroundColor = '#ffffff';
-            }
-            this.contentEditable = true;
-            this.focus();
-        });
-
-        cell.addEventListener('blur', function() {
-            this.contentEditable = false;
-            if (this.textContent.trim() === '') {
-                this.textContent = 'Input text here';
-                this.style.color = '#666666';
-                this.style.fontStyle = 'italic';
-                this.style.backgroundColor = '#f9f9f9';
-            }
-        });
-
-        cell.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                this.blur();
-            }
-        });
-    }
+    inputFields.forEach(field => {
+        setupInputField(field);
+    });
 }
 
-// Add button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const addButton = document.createElement('button');
-    addButton.textContent = 'Add New Row';
-    addButton.style.marginTop = '20px';
-    addButton.style.padding = '10px 20px';
-    addButton.style.backgroundColor = '#000000';
-    addButton.style.color = '#ffffff';
-    addButton.style.border = 'none';
-    addButton.style.cursor = 'pointer';
-    addButton.style.fontSize = '16px';
-    
-    addButton.addEventListener('click', addRow);
-    addButton.addEventListener('mouseenter', function() {
-        this.style.backgroundColor = '#333333';
-    });
-    addButton.addEventListener('mouseleave', function() {
-        this.style.backgroundColor = '#000000';
+function setupInputField(field) {
+    // Handle focus event
+    field.addEventListener('focus', function() {
+        if (!this.classList.contains('has-content')) {
+            this.textContent = '';
+        }
     });
     
-    document.body.appendChild(addButton);
-});
+    // Handle blur event
+    field.addEventListener('blur', function() {
+        if (this.textContent.trim() === '') {
+            this.classList.remove('has-content');
+        } else {
+            this.classList.add('has-content');
+        }
+    });
+    
+    // Handle input event
+    field.addEventListener('input', function() {
+        if (this.textContent.trim() !== '') {
+            this.classList.add('has-content');
+        } else {
+            this.classList.remove('has-content');
+        }
+    });
+    
+    // Handle Enter key to move to next field
+    field.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const nextField = getNextInputField(this);
+            if (nextField) {
+                nextField.focus();
+            }
+        }
+    });
+}
+
+function getNextInputField(currentField) {
+    const allFields = Array.from(document.querySelectorAll('.input-field'));
+    const currentIndex = allFields.indexOf(currentField);
+    return allFields[currentIndex + 1] || null;
+}
+
+function addNewEntry() {
+    const container = document.querySelector('.form-container');
+    
+    // Create separator
+    const separator = document.createElement('div');
+    separator.className = 'entry-separator';
+    separator.innerHTML = '<h2>Entry ' + (getEntryCount() + 1) + '</h2>';
+    
+    // Create new form rows
+    const fieldNames = [
+        { id: 'title', label: 'Title' },
+        { id: 'author', label: 'Author' },
+        { id: 'year', label: 'Year' },
+        { id: 'format', label: 'Format' },
+        { id: 'audience', label: 'Audience' },
+        { id: 'bibliography-author', label: 'Bibliography of Author' },
+        { id: 'bibliography-others', label: 'Bibliography of Others' }
+    ];
+    
+    container.appendChild(separator);
+    
+    fieldNames.forEach(field => {
+        const formRow = document.createElement('div');
+        formRow.className = 'form-row';
+        
+        formRow.innerHTML = `
+            <div class="label-column">
+                <label for="${field.id}">${field.label}</label>
+            </div>
+            <div class="input-column">
+                <div class="input-field" contenteditable="true" data-placeholder="Input text here"></div>
+            </div>
+        `;
+        
+        container.appendChild(formRow);
+        
+        // Setup the new input field
+        const newInputField = formRow.querySelector('.input-field');
+        setupInputField(newInputField);
+    });
+}
+
+function getEntryCount() {
+    return document.querySelectorAll('.entry-separator').length;
+}
