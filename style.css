@@ -65,3 +65,15 @@ body {
   font-size: 0.9rem;
   color: #555;
 }
+
+.pdf-viewer {
+  margin-top: 60px;
+  border-top: 1px solid #ccc;
+  padding-top: 30px;
+}
+
+.pdf-viewer h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
