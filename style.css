@@ -170,6 +170,7 @@ body {
   .image-container img {
       max-width: 45%;
       height: auto; /* preserves aspect ratio */
+      width: 300px;
       object-fit: contain; /* ensures full image is visible */
     }
 
