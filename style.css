@@ -162,6 +162,17 @@ body {
       }
     }
 
+  .image-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px; /* spacing between images */
+    }
+  .image-container img {
+      max-width: 45%;
+      height: auto; /* preserves aspect ratio */
+      object-fit: contain; /* ensures full image is visible */
+    }
+
 .footer {
   padding-top: 20px;
   font-size: 0.9rem;
